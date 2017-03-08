@@ -655,7 +655,8 @@ double optimalSlofFixedPoint(
 		maxDouble = max(maxDouble, x);
 	}
 
-	fp = floor(0xFFFF / maxDouble);
+	// here we use 0xFFFE as maximal value as we add 0.5 during encoding (see encodeSlof)
+	fp = floor(0xFFFE / maxDouble);
 
 	//cout << "    max val: " << maxDouble << endl;
 	//cout << "fixed point: " << fp << endl;
