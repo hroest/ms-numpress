@@ -639,6 +639,38 @@ void decodePic(
 
 /////////////////////////////////////////////////////////////
 
+// relativeError is the maximal relative error (yhat / y) to be tolerated
+double optimalSlofFixedPointRelError(
+		const double *data, 
+		size_t dataSize,
+        double relativeError
+) {
+	if (dataSize == 0) return 0;
+	
+    // We calculate the maximal fixedPoint we need to achieve a specific
+    // relative error.  Note that the maximal error we will make by encoding as
+    // int is 0.5 due to rounding errors.
+    //   -> this is an approximation that does not include the +1 in the
+    //      formula which uses log(x+1) and introduces large errors for small
+    //      values (e.g. values smaller than 1).
+    double maxFP = abs(0.5 / log(1+relativeError));
+
+    double min = data[0];
+	for (size_t i=0; i<dataSize; i++) {
+      if (data[i] < min) min = data[i];
+	}
+    if (min < 5) return -2; // approximation breaks down, better not use slof at all!
+                            // maybe better to use lossless compression instead?
+
+    // There is a maximal value for the FP given by the short length (16bit)
+    // which means we cannot choose a value higher than that. In case we cannot
+    // achieve the desired accuracy, return failure (-1).
+    double maxFP_overflow = optimalSlofFixedPoint(data, dataSize);
+    if (maxFP > maxFP_overflow) return -1;
+
+    return maxFP;
+}
+
 
 double optimalSlofFixedPoint(
 		const double *data, 

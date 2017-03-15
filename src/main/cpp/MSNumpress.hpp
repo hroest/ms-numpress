@@ -233,9 +233,37 @@ namespace MSNumpress {
 /////////////////////////////////////////////////////////////
 
 
+	/**
+	 * Compute the maximal slof fixed point for a given dataset.
+	 *
+	 * @data		pointer to array of double to be encoded (need memorycont. repr.)
+	 * @dataSize	number of doubles from *data to encode
+	 *
+	 * @return		the maximal slof fixed point that will not lead to overflow
+	 */
 	double optimalSlofFixedPoint(
 		const double *data, 
 		size_t dataSize);
+
+	/**
+	 * Compute the optimal slof fixed point with a desired intensity relative error.
+	 *
+	 * @note If the desired accuracy cannot be reached without overflow, then a
+	 * negative value is returned. You need to check for this and in that case
+	 * abandon numpress or use optimalSlofFixedPoint which returns the largest
+	 * safe value.
+	 *
+	 * @data		pointer to array of double to be encoded (need memorycont. repr.)
+	 * @dataSize	number of doubles from *data to encode
+	 * @relError	desired relative error (e.g. 0.1 for 10% relative error)
+	 *
+	 * @return		the slof fixed point that satisfies the accuracy requirement (or -1 in case of failure).
+	 */
+	double optimalSlofFixedPointRelError(
+		const double *data, 
+		size_t dataSize,
+		double relativeError);
+
 
 	/**
 	 * Encodes ion counts by taking the natural logarithm, and storing a
