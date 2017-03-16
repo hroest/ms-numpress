@@ -68,6 +68,19 @@ class TestMSNumpress(unittest.TestCase):
         self.assertAlmostEqual(result[0], 100)
         self.assertAlmostEqual(result, self.data)
 
+    def test_optimalSlofFixedPointRelError(self):
+        pt = PyMSNumpress.optimalSlofFixedPointRelError(self.data, 1e-2)
+        self.assertAlmostEqual(pt, 50.24958540356522)
+
+        pt = PyMSNumpress.optimalSlofFixedPointRelError(self.data, 1e-3)
+        self.assertAlmostEqual(pt, 500.2499583542085)
+
+        pt = PyMSNumpress.optimalSlofFixedPointRelError(self.data, 5*1e-4)
+        self.assertAlmostEqual(pt, 1000.2499791719835)
+
+        pt = PyMSNumpress.optimalSlofFixedPointRelError(self.data, 1e-6)
+        self.assertAlmostEqual(pt, -1)
+		
     def test_optimalSlofFixedPoint(self):
         pt = PyMSNumpress.optimalSlofFixedPoint(self.data)
         self.assertAlmostEqual(pt, 14110.0)
