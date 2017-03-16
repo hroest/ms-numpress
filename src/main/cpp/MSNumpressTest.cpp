@@ -530,6 +530,33 @@ void optimalSlofFixedPoint() {
 }
 
 
+void optimalSlofFixedPointRelError() {
+
+	srand(123459);
+	
+	size_t n = 1000;
+	double ics[1000];
+	for (size_t i=0; i<n; i++) 
+		ics[i] = rand() % 1000000;
+
+	double fixedP;
+
+	fixedP = ms::numpress::MSNumpress::optimalSlofFixedPointRelError(&ics[0], n, 0.01); 
+	assert(abs(50.24958540356522 - fixedP) < 0.000005);
+
+	fixedP = ms::numpress::MSNumpress::optimalSlofFixedPointRelError(&ics[0], n, 1e-3); 
+	assert(abs(500.2499583542085 - fixedP) < 0.000005);
+
+	fixedP = ms::numpress::MSNumpress::optimalSlofFixedPointRelError(&ics[0], n, 5*1e-4); 
+	assert(abs(1000.2499791719835 - fixedP) < 0.000005);
+
+	// cannot reach that accuracy
+	fixedP = ms::numpress::MSNumpress::optimalSlofFixedPointRelError(&ics[0], n, 1e-6); 
+	assert(abs(-1 - fixedP) < 0.0005);
+		
+	cout << "+ pass    optimalSlofFixedPointRelError " << endl << endl;
+}
+
 
 void encodeDecodeSlof() {
 	srand(123459);
@@ -669,6 +696,7 @@ int main(int argc, const char* argv[]) {
 	encodeDecodeSafeStraight();
 	encodeDecodeSafe();
 	optimalSlofFixedPoint();
+	optimalSlofFixedPointRelError();
 	encodeDecodeSlof();
 	encodeDecodeLinear5();
 	encodeDecodePic5();
