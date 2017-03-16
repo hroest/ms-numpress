@@ -26,6 +26,7 @@ from MSNumpress cimport optimalLinearFixedPoint as _optimalLinearFixedPoint
 from MSNumpress cimport encodeSlof as _encodeSlof
 from MSNumpress cimport decodeSlof as _decodeSlof
 from MSNumpress cimport optimalSlofFixedPoint as _optimalSlofFixedPoint
+from MSNumpress cimport optimalSlofFixedPointRelError as _optimalSlofFixedPointRelError
 from MSNumpress cimport encodePic as _encodePic
 from MSNumpress cimport decodePic as _decodePic
 
@@ -37,6 +38,15 @@ def optimalLinearFixedPoint(data):
     cdef double result = _optimalLinearFixedPoint( &c_data[0], dataSize)
 
     return result
+
+def optimalSlofFixedPointRelError(data, relativeError):
+    dataSize = len(data)
+    cdef libcpp_vector[double] c_data = data
+
+    cdef double result = _optimalSlofFixedPointRelError( &c_data[0], dataSize, relativeError)
+
+    return result
+
 
 def optimalSlofFixedPoint(data):
     dataSize = len(data)

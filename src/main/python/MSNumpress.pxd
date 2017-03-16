@@ -30,6 +30,11 @@ cdef extern from "MSNumpress.hpp" namespace "ms::numpress::MSNumpress":
         double *data, 
         size_t dataSize)
 
+    double optimalSlofFixedPointRelError(
+        double *data, 
+        size_t dataSize, 
+        double relativeError)
+
     void encodeLinear(libcpp_vector[ double] &data, 
         libcpp_vector[ unsigned char] &result,
         double fixedPoint)
